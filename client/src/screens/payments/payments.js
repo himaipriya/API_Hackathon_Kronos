@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { map } from "ramda";
 import { StyleSheet, Text, Modal, View, TextInput } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import Screen from "../../components/screen";
