@@ -28,7 +28,7 @@ const OffersCreation = ({ route, navigation }) => {
         title="I'm Intrested"
         style={{ marginBottom: 10 }}
         onPress={() => {
-          navigation.navigate("dummy");
+          navigation.navigate("dashbaord");
         }}
       />
     </Screen>
