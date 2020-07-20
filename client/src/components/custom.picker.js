@@ -66,12 +66,12 @@ const CustomPicker = ({
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#F5F5F5",
-    borderRadius: 25,
+    borderRadius: 15,
     borderColor: "#ccc",
     borderWidth: 1,
     flexDirection: "row",
     width: "100%",
-    padding: 15,
+    padding: 10,
     marginVertical: 10,
   },
   centeredView: {
@@ -94,6 +94,7 @@ const styles = StyleSheet.create({
   text: {
     flex: 1,
     fontSize: 18,
+    paddingTop: 3,
   },
   listItem: {
     flex: 1,

@@ -111,7 +111,7 @@ const payments = ({ navigation }) => {
         placeholder="Select an account"
       />
       <View style={styles.amtContainer}>
-        <Label text="Amount" />
+        <Label text="Amount: " />
         <TextInput
           keyboardType="number-pad"
           placeholder="Amount"
@@ -192,14 +192,15 @@ const styles = StyleSheet.create({
     flex: 0.5,
     borderColor: "#ccc",
     borderWidth: 1,
-    marginLeft: 15,
-    borderRadius: 25,
+    marginLeft: 10,
+    borderRadius: 15,
     paddingLeft: 15,
     backgroundColor: "white",
     fontSize: 17,
   },
   contText: {
     fontSize: 18,
+    fontWeight: 'bold',
   },
 });
 
