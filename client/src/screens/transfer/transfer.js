@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { StyleSheet, Text } from "react-native";
-import { Icon } from 'react-native-elements'
 import Screen from "../../components/screen";
 import MyCarousel  from "../../components/carousel/mycarousel"
 import Button from "../../components/button";
