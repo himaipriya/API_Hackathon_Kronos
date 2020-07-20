@@ -3,6 +3,7 @@ import { StyleSheet, Text, Modal, View, TextInput } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import Screen from "../../components/screen";
 import Button from "../../components/button";
+import Error from "../../components/error";
 import CustomPicker from "../../components/custom.picker";
 import Label from "../../components/label";
 import { makePayment } from "../../domain/actions/payment.action";
@@ -42,7 +43,8 @@ const payments = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [debitAccount, setDebitAccount] = useState({ balance: 0 });
   const [creditAccount, setCreditAccount] = useState();
-  const [amount, setAmount] = useState("");
+  const [amount, setAmount] = useState();
+  const [error, setError] = useState(false);
 
   const handleSubmit = () => {
     const { AccountId: fromAccount } = debitAccount;
@@ -88,6 +90,16 @@ const payments = ({ navigation }) => {
     dispatch(fetchAccounts());
   }, []);
 
+  const onAmountChange = (amount) => {
+    const amt = Number(amount);
+    if (amt > debitAccount.balance) {
+      setError(true);
+    } else if (error) {
+      setError(false);
+    }
+    setAmount(Number(amount));
+  };
+
   return (
     <Screen style={styles.container} showLoader={posting || fetching}>
       <Label text="From Amount:" />
@@ -117,9 +129,13 @@ const payments = ({ navigation }) => {
           maxLength={10}
           style={styles.amtField}
           value={amount}
-          onChangeText={setAmount}
+          onChangeText={onAmountChange}
         />
       </View>
+      <Error
+        visible={error}
+        message="Entered Amount should be lesser than balance"
+      />
       <Label text="Amount to be Credited to Your Virtual Account" />
       <Text style={styles.contText}>
         {" "}
