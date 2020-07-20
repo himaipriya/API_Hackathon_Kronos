@@ -43,6 +43,13 @@ const Transfer = ({ navigation }) => {
           navigation.navigate("transfer-to-savings");
         }}
       />
+      <Button
+        title="Delete Virtual Account"
+        style={{ marginBottom: 10 }}
+        onPress={() => {
+          navigation.navigate("transfer-to-savings");
+        }}
+      />
     </Screen>
   );
 };

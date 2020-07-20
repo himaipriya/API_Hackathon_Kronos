@@ -6,39 +6,6 @@ import Label from "../../components/label";
 import Button from "../../components/button";
 import MyCarousel  from "../../components/carousel/mycarousel"
 
-const DATA = [
-  {
-    id: 1,
-    amount: 100,
-    reward: 8,
-    date: "12/5/2020",
-  },
-  {
-    id: 2,
-    amount: 300,
-    reward: 20,
-    date: "12/5/2020",
-  },
-  {
-    id: 3,
-    amount: 1000,
-    reward: 32,
-    date: "12/5/2020",
-  },
-  {
-    id: 4,
-    amount: 50000,
-    reward: 200,
-    date: "12/5/2020",
-  },
-  {
-    id: 5,
-    amount: 10000,
-    reward: 80,
-    date: "12/5/2020",
-  },
-];
-
 const Summary = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const payments = useSelector((store) => store.makePayment.payments);
@@ -82,8 +49,8 @@ const Summary = ({ navigation }) => {
             setModalVisible(true);
           }}
         />
-      <Label
-        text="Your Offers" />
+      {/* <Label
+        text="Your Offers" /> */}
       <MyCarousel whenClicked={onOfferSelected}></MyCarousel>
       
       <Modal animationType="slide" visible={modalVisible}>
@@ -115,7 +82,6 @@ const Summary = ({ navigation }) => {
             />
           </View>
       </Modal>
-
       </View>
     </Screen>
   );
