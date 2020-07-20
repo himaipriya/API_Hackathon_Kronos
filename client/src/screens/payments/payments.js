@@ -47,8 +47,8 @@ const payments = ({ navigation }) => {
   const handleSubmit = () => {
     const { AccountId: fromAccount } = debitAccount;
     const { AccountId: toAccount } = creditAccount;
-    const rewardAmount = amount * (percent / 100);
-    const rewardPts = amount * 0.01;
+    const rewardAmount = Math.floor(amount * (percent / 100));
+    const rewardPts = Math.floor(amount * 0.01);
     const payload = {
       fromAccount,
       toAccount,
@@ -74,7 +74,6 @@ const payments = ({ navigation }) => {
     };
 
     payments.push(payload);
-    console.log("payments", payments);
     dispatch(makePayment(payments));
     dispatch(updateAccountList(updatedAccountList));
     dispatch(updateVAccount(updatedRewards));
@@ -122,10 +121,13 @@ const payments = ({ navigation }) => {
         />
       </View>
       <Label text="Amount to be Credited to Your Virtual Account" />
-      <Text style={styles.contText}> {amount * (percent / 100)}</Text>
+      <Text style={styles.contText}>
+        {" "}
+        {Math.floor(amount * (percent / 100))}
+      </Text>
 
       <Label text="Earned reward point" />
-      <Text style={styles.contText}> {amount * 0.01}</Text>
+      <Text style={styles.contText}> {Math.floor(amount * 0.01)}</Text>
 
       <Button title="Make Payment" onPress={handleSubmit}></Button>
 
@@ -165,7 +167,7 @@ const styles = StyleSheet.create({
     marginTop: 22,
   },
   modalView: {
-    flex: 1,
+    flex: 0.5,
     margin: 20,
     backgroundColor: "white",
     borderRadius: 20,
@@ -200,7 +202,7 @@ const styles = StyleSheet.create({
   },
   contText: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
 });
 
