@@ -1,6 +1,7 @@
 import {
   FETCH_ACCOUNTS_SUCCESS,
   FETCH_ACCOUNTS_REQUESTED,
+  UPDATE_ACCOUNTLIST,
 } from "../actionTypes/accounts.actionTypes";
 
 const initialState = {
@@ -15,6 +16,11 @@ export default (state = initialState, action) => {
         fetching: true,
       };
     case FETCH_ACCOUNTS_SUCCESS:
+      return {
+        fetching: false,
+        data: action.payload,
+      };
+    case UPDATE_ACCOUNTLIST:
       return {
         fetching: false,
         data: action.payload,

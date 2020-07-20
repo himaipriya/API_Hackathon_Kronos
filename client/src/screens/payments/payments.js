@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { map } from "ramda";
 import { StyleSheet, Text, Modal, View, TextInput } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import Screen from "../../components/screen";
@@ -6,9 +7,24 @@ import Button from "../../components/button";
 import CustomPicker from "../../components/custom.picker";
 import Label from "../../components/label";
 import { makePayment } from "../../domain/actions/payment.action";
-import { fetchAccounts } from "../../domain/actions/accounts.action";
+import {
+  fetchAccounts,
+  updateAccountList,
+} from "../../domain/actions/accounts.action";
 import { updateAccount } from "../../domain/actions/createVA.action";
 
+const getUpdatedAccounts = (accounts, debitAccId, creditAccId, amount) => {
+  const accountList = accounts.map((account) => {
+    const { AccountId, balance } = account;
+    if (AccountId === debitAccId) {
+      account.balance = balance - amount;
+    } else if (AccountId === creditAccId) {
+      account.balance = balance + amount;
+    }
+    return account;
+  });
+  return accountList;
+};
 
 const payments = ({ navigation }) => {
   const posting = useSelector((state) => state.makePayment.fetching);
@@ -20,26 +36,39 @@ const payments = ({ navigation }) => {
   const percentage = useSelector(
     (store) => store.userPreference.preferences.percent
   );
-  
+
   const payments = useSelector((store) => store.makePayment.payments);
   const dispatch = useDispatch();
+
   const [modalVisible, setModalVisible] = useState(false);
-  const [debitAccount, setDebitAccount] = useState({balance: 0});
+  const [debitAccount, setDebitAccount] = useState({ balance: 0 });
   const [creditAccount, setCreditAccount] = useState();
   const [amount, setAmount] = useState("");
 
   const handleSubmit = () => {
+    const { AccountId: fromAccount } = debitAccount;
+    const { AccountId: toAccount } = creditAccount;
+    const rewardAmount = amount * (percentage / 100);
     const payload = {
-      fromAccount: debitAccount.AccountId,
-      toAccount: creditAccount.AccountId,
+      fromAccount,
+      toAccount,
       date: new Date().toISOString().split("T")[0],
       amount,
-      rewardAmount: amount * (percentage / 100),
+      rewardAmount,
       rewardPts: amount * 0.01,
     };
+
+    const updatedAccountList = getUpdatedAccounts(
+      accounts,
+      fromAccount,
+      toAccount,
+      Number(amount) + Number(rewardAmount)
+    );
+
     payments.push(payload);
     console.log("payments", payments);
     dispatch(makePayment(payments));
+    dispatch(updateAccountList(updatedAccountList));
   };
 
   useEffect(() => {
@@ -89,7 +118,7 @@ const payments = ({ navigation }) => {
       <Text style={styles.contText}> {amount * 0.01}</Text>
 
       <Button title="Make Payment" onPress={handleSubmit}></Button>
-      
+
       <Modal animationType="slide" transparent={true} visible={modalVisible}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
@@ -160,9 +189,8 @@ const styles = StyleSheet.create({
     fontSize: 17,
   },
   contText: {
-    fontSize: 18
-  }
-
+    fontSize: 18,
+  },
 });
 
 export default payments;
