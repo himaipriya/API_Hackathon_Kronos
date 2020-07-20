@@ -1,0 +1,9 @@
+{
+  "virtualAccount": true,
+  "percent": 25,
+  "options": {
+    "transfers": false,
+    "cardPayment": true,
+    "onlinePayment": true
+  }
+}

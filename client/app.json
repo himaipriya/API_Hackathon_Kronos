@@ -1,0 +1,29 @@
+{
+  "expo": {
+    "name": "happy-save-ui",
+    "slug": "happy-save-ui",
+    "version": "1.0.0",
+    "privacy": "unlisted",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "entryPoint": "./src/App.js",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "description": "happy save"
+  }
+}
