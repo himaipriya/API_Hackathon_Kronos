@@ -43,7 +43,7 @@ const payments = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [debitAccount, setDebitAccount] = useState({ balance: 0 });
   const [creditAccount, setCreditAccount] = useState();
-  const [amount, setAmount] = useState();
+  const [amount, setAmount] = useState(0);
   const [error, setError] = useState(false);
 
   const handleSubmit = () => {
@@ -92,7 +92,8 @@ const payments = ({ navigation }) => {
 
   const onAmountChange = (amount) => {
     const amt = Number(amount);
-    if (amt > debitAccount.balance) {
+    const virtualAmount = Math.floor(amount * (percent / 100))
+    if ((virtualAmount + amt) > debitAccount.balance) {
       setError(true);
     } else if (error) {
       setError(false);
@@ -134,18 +135,21 @@ const payments = ({ navigation }) => {
       </View>
       <Error
         visible={error}
-        message="Entered Amount should be lesser than balance"
+        message="Entered Amount + Your Virtual Amount, Exceeds your available balance"
       />
-      <Label text="Amount to be Credited to Your Virtual Account" />
-      <Text style={styles.contText}>
-        {" "}
-        {Math.floor(amount * (percent / 100))}
-      </Text>
+      
+        <Label text="Amount to be Credited to Your Virtual Account" />
+        <Text style={styles.contText}>
+          {Math.floor(amount * (percent / 100))}
+        </Text>
 
-      <Label text="Earned reward point" />
-      <Text style={styles.contText}> {Math.floor(amount * 0.01)}</Text>
+        <Label text="Amount to be debited" />
+        <Text style={styles.contText}> {amount + Math.floor(amount * (percent / 100))}</Text>
 
-      <Button title="Make Payment" onPress={handleSubmit}></Button>
+        <Label text="Earned reward point" />
+        <Text style={styles.contText}> {Math.floor(amount * 0.01)}</Text>
+      
+      <Button disable={error} title="Make Payment" onPress={handleSubmit}></Button>
 
       <Modal animationType="slide" transparent={true} visible={modalVisible}>
         <View style={styles.centeredView}>

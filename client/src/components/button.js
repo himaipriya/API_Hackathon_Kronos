@@ -3,7 +3,6 @@ import { TouchableOpacity, StyleSheet, Text } from "react-native";
 import Colors from "../specifics/colors";
 
 const Button = ({ title, onPress, type = "primary", style, disable = false }) => {
-  console.log(disable)
   return (
     <TouchableOpacity
       disabled={disable}

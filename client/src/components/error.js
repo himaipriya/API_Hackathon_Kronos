@@ -21,6 +21,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   errorTxt: {
+    flex: 1,
     color: "red",
     marginLeft: 5,
     fontWeight: "500",

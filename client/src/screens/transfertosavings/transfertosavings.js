@@ -6,7 +6,9 @@ import Screen from "../../components/screen";
 import Button from "../../components/button";
 import CustomPicker from "../../components/custom.picker";
 import Label from "../../components/label";
+import Error from "../../components/error";
 import { getToken } from "../../domain/actions/token.action";
+import { updateVAccount } from "../../domain/actions/createVA.action";
 
 const accounts = [
   {
@@ -24,12 +26,35 @@ const accounts = [
 ];
 
 const TransferToSavings = ({ navigation }) => {
+  const dispatch = useDispatch();
   const preferences = useSelector((store) => store.userPreference.preferences);
   const { account } = preferences;
   const balanceAmount = account.rewardAmount || 0;
   const balancePoints = account.rewardPts || 0;
   const [creditAccount, setCreditAccount] = useState();
   const [amount, setAmount] = useState("");
+  const [error, setError] = useState(false);
+
+  const onTextChanged = (value) => {
+    if (value > balanceAmount) {
+      setError(true)
+    } else {
+      setError(false)
+    }
+    setAmount(value)
+  }
+  
+  const makeTrasfer = () => {
+    const updatedRewards = {
+      ...preferences,
+      account: {
+        rewardPts: preferences.account.rewardPts - amount * 0.02,
+        rewardAmount: preferences.account.rewardAmount - amount,
+      },
+    };
+    dispatch(updateVAccount(updatedRewards));
+    navigation.navigate("dashbaord");
+  }
 
   return (
     <Screen style={styles.container}>
@@ -56,17 +81,23 @@ const TransferToSavings = ({ navigation }) => {
           maxLength={10}
           style={styles.amtField}
           value={amount}
-          onChangeText={setAmount}
+          onChangeText={onTextChanged}
         />
       </View>
       <Text style={styles.labeltext}>
-        You will lose {amount * 0.01} Reward Points for this transfer and your
+        You will lose {amount * 0.02} Reward Points for this transfer and your
         badge may change
       </Text>
+      <Error
+        visible={error}
+        message={`Entered Amount ${amount}, Exceeds your available balance`}
+      />
       <Button
+      disable={error}
         title="Transfer"
         style={{ marginBottom: 10 }}
         onPress={() => {
+          makeTrasfer()
           // navigation.navigate("fdpage");
         }}
       />
@@ -106,6 +137,10 @@ const styles = StyleSheet.create({
     marginLeft: "auto",
     marginRight: "auto",
   },
+  error: {
+    color: '#ff0000',
+    paddingTop: 10,
+  }
 });
 
 export default TransferToSavings;

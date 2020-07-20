@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { StyleSheet, Text, View, TextInput, Image, FlatList } from "react-native";
 import Screen from "../../components/screen";
 import Button from "../../components/button";
+import Error from "../../components/error";
+
 import CustomPicker from "../../components/custom.picker";
 import Label from "../../components/label";
 import { updateVAccount } from "../../domain/actions/createVA.action";
@@ -115,6 +117,7 @@ const TransferAsFixedDeposit = ({ navigation }) => {
   useEffect(() => {
     // console.log("useEffect", authenticated);
   }, [authenticated]);
+
   const onTextChanged = (value) => {
     if (value > balanceAmount) {
       setError(true)
@@ -123,6 +126,7 @@ const TransferAsFixedDeposit = ({ navigation }) => {
     }
     setAmount(value)
   }
+
   const createFixedDeposit = () => {
     const updatedRewards = {
       ...preferences,
@@ -167,8 +171,10 @@ const TransferAsFixedDeposit = ({ navigation }) => {
         />
         </>
       }
-      {error && <Text style={styles.error}>Entered Amount Is Higher than Your Balance</Text>}
-      
+      <Error
+        visible={error}
+        message={`Entered Amount ${amount}, Exceeds your available balance`}
+      />
       <Button
         disable={error}
         title="Create Fixed Deposit"
