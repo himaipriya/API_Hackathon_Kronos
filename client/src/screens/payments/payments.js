@@ -78,10 +78,11 @@ const payments = ({ navigation }) => {
     dispatch(makePayment(payments));
     dispatch(updateAccountList(updatedAccountList));
     dispatch(updateVAccount(updatedRewards));
+    setModalVisible(true);
   };
 
   useEffect(() => {
-    setModalVisible(success);
+    // setModalVisible(success);
   }, [success]);
 
   useEffect(() => {
