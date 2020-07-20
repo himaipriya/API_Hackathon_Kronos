@@ -96,6 +96,7 @@ const TransferAsFixedDeposit = ({ navigation }) => {
   const [badgeSource, setBadgeSource] = useState('')
 
   const [amount, setAmount] = useState("");
+  const [error, setError] = useState(false);
   
   useEffect(() => {
     //dispatch(getToken());
@@ -114,7 +115,14 @@ const TransferAsFixedDeposit = ({ navigation }) => {
   useEffect(() => {
     // console.log("useEffect", authenticated);
   }, [authenticated]);
-
+  const onTextChanged = (value) => {
+    if (value > balanceAmount) {
+      setError(true)
+    } else {
+      setError(false)
+    }
+    setAmount(value)
+  }
   const createFixedDeposit = () => {
     const updatedRewards = {
       ...preferences,
@@ -138,7 +146,7 @@ const TransferAsFixedDeposit = ({ navigation }) => {
           maxLength={10}
           style={styles.amtField}
           value={amount}
-          onChangeText={setAmount}
+          onChangeText={onTextChanged}
         />
       <Label
         text="Select Tenure(in Years):" />
@@ -159,7 +167,10 @@ const TransferAsFixedDeposit = ({ navigation }) => {
         />
         </>
       }
+      {error && <Text style={styles.error}>Entered Amount Is Higher than Your Balance</Text>}
+      
       <Button
+        disable={error}
         title="Create Fixed Deposit"
         style={{ marginBottom: 10 }}
         onPress={() => {
@@ -230,6 +241,10 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
   },
+  error: {
+    color: '#ff0000',
+    paddingTop: 10,
+  }
 });
 
 export default TransferAsFixedDeposit;
