@@ -5,6 +5,7 @@ import Screen from "../../components/screen";
 import Button from "../../components/button";
 import CustomPicker from "../../components/custom.picker";
 import Label from "../../components/label";
+import { updateVAccount } from "../../domain/actions/createVA.action";
 import { getToken } from "../../domain/actions/token.action";
 
 const accounts = [
@@ -85,24 +86,21 @@ const DATA = [
 const TransferAsFixedDeposit = ({ navigation }) => {
   const dispatch = useDispatch();
   const authenticated = useSelector((store) => store.token.userAuthenticated);
-  const payments = useSelector((store) => store.makePayment.payments);
-  const balAmount = (accumulator, currentValue) => (Number(accumulator) + Number(currentValue.rewardAmount));
-  const balPoints = (accumulator, currentValue) => (Number(accumulator) + Number(currentValue.rewardPts));
-  const balanceAmount = payments.reduce(balAmount, 0)
-  const balancePoints = payments.reduce(balPoints, 0)
+  const preferences = useSelector((store) => store.userPreference.preferences);
+  const balanceAmount = preferences.account.rewardAmount
+  const balancePoints = preferences.account.rewardPts
 
   const [selectedTenure, setTenure] = useState(initTenure);
   const [tenureSelected, setTenureSelected] = useState(false);
   const [badgeSource, setBadgeSource] = useState('')
 
   const [amount, setAmount] = useState("");
-
+  
   useEffect(() => {
     //dispatch(getToken());
   }, []);
 
   useEffect(() => {
-    console.log('TENURE CHANGED', selectedTenure)
     if(selectedTenure && selectedTenure.number !== 0){
       setBadgeSource(selectedTenure.badge)
       setTenureSelected(true)
@@ -110,13 +108,22 @@ const TransferAsFixedDeposit = ({ navigation }) => {
       setBadgeSource('')
       setTenureSelected(false)
     }
-
-
   }, [selectedTenure]);
 
   useEffect(() => {
     // console.log("useEffect", authenticated);
   }, [authenticated]);
+
+  const createFixedDeposit = () => {
+    const updatedRewards = {
+      ...preferences,
+      account: {
+        rewardPts: preferences.account.rewardPts + amount * selectedTenure.reward,
+        rewardAmount: preferences.account.rewardAmount - amount,
+      },
+    };
+    dispatch(updateVAccount(updatedRewards));
+  }
 
   return (
     <Screen style={styles.container}>
@@ -156,6 +163,7 @@ const TransferAsFixedDeposit = ({ navigation }) => {
         style={{ marginBottom: 10 }}
         onPress={() => {
           // navigation.navigate("fdpage");
+          createFixedDeposit()
         }}
       />
       <Label
