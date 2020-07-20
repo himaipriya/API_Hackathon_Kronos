@@ -87,8 +87,9 @@ const TransferAsFixedDeposit = ({ navigation }) => {
   const dispatch = useDispatch();
   const authenticated = useSelector((store) => store.token.userAuthenticated);
   const preferences = useSelector((store) => store.userPreference.preferences);
-  const balanceAmount = preferences.account.rewardAmount
-  const balancePoints = preferences.account.rewardPts
+  const { account } = preferences;
+  const balanceAmount = account.rewardAmount || 0;
+  const balancePoints = account.rewardPts || 0;
 
   const [selectedTenure, setTenure] = useState(initTenure);
   const [tenureSelected, setTenureSelected] = useState(false);

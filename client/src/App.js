@@ -66,7 +66,7 @@ const App = () => {
           />
           <Drawer.Screen
             name="transfer"
-            options={{ drawerLabel: "Transfer Virtual Amount" }}
+            options={{ drawerLabel: "Manage Virtual Money" }}
             component={StackTransfer}
           />
         </Drawer.Navigator>
