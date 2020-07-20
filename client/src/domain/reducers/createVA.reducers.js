@@ -2,7 +2,7 @@ import {
   CREATE_ACCOUNT,
   CREATE_ACCOUNT_SUCCESS,
   UPDATE_ACCOUNT,
-  UPDATE_ACCOUNT_SUCCESS
+  UPDATE_ACCOUNT_SUCCESS,
 } from "../actionTypes/createVA.actionTypes";
 
 const initialState = {
@@ -24,7 +24,7 @@ export default (state = initialState, action) => {
     case UPDATE_ACCOUNT:
       return {
         ...state,
-        fetching: true,
+        fetching: false,
       };
     case UPDATE_ACCOUNT_SUCCESS:
       return {

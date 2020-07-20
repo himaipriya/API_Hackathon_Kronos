@@ -5,9 +5,16 @@ import { Platform } from "react-native";
 import { createStore, applyMiddleware } from "redux";
 import createSagaMiddleWare from "redux-saga";
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator } from "@react-navigation/stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import { StackSettings, StackSummary, StackDummy, StackTransfer, Payments, StackTransferTwoSavings } from "./screens";
+import {
+  StackSettings,
+  StackSummary,
+  StackDashboard,
+  StackTransfer,
+  Payments,
+  StackTransferTwoSavings,
+} from "./screens";
 import reducer from "./domain/reducers";
 import rootSaga from "./domain/saga/rootSaga";
 
@@ -40,12 +47,7 @@ const App = () => {
           <Drawer.Screen
             name="dashbaord"
             options={{ drawerLabel: "Dashboard" }}
-            component={StackDummy}
-          />
-          <Drawer.Screen
-            name="accounts"
-            options={{ drawerLabel: "Accounts" }}
-            component={StackDummy}
+            component={StackDashboard}
           />
           <Drawer.Screen
             name="payments"

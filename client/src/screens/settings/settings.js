@@ -5,18 +5,8 @@ import { CheckBox } from "react-native-elements";
 import Screen from "../../components/screen";
 import Label from "../../components/label";
 import Button from "../../components/button";
-import { getPreference } from "../../domain/actions/preferences.action";
 import { createAccount } from "../../domain/actions/createVA.action";
 
-//Similar to this we will get userPreference from API
-const defaultPreferences = {
-  percent: 0,
-  options: {
-    cardPayment: false,
-    onlinePayment: false,
-    transfers: false,
-  },
-};
 const reducer = (state, newState) => ({ ...state, ...newState });
 
 const Settings = ({ navigation }) => {
@@ -35,27 +25,20 @@ const Settings = ({ navigation }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log("getPReference invoke");
-    dispatch(getPreference());
-  }, []);
-
-  useEffect(() => {
     setModalVisible(updateSuccess);
   }, [updateSuccess]);
 
   useEffect(() => {
-    console.log("preferences", preferences);
     if (preferences.virtualAccount) {
       setSliderValue(preferences.percent);
       setOptions(preferences.options);
     }
   }, [preferences]);
 
-  let userPreference = defaultPreferences;
+  let userPreference = preferences;
   let buttonText = "Create Virtual Account";
   let message = "created";
   if (preferences.virtualAccount) {
-    userPreference = preferences;
     buttonText = "Update Virtual Account";
     message = "updated";
   }
@@ -65,6 +48,7 @@ const Settings = ({ navigation }) => {
 
   const handleSubmit = () => {
     const payload = {
+      ...preferences,
       virtualAccount: true,
       percent: sliderValue,
       options,
@@ -138,7 +122,7 @@ const Settings = ({ navigation }) => {
               title="Ok"
               onPress={() => {
                 setModalVisible(false);
-                navigation.navigate("dummy");
+                navigation.navigate("dashboard");
               }}
             />
             <Button

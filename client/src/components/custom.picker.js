@@ -31,7 +31,9 @@ const CustomPicker = ({
       <TouchableOpacity onPress={() => setModalVisible(true)}>
         <View style={styles.container}>
           <Text style={styles.text}>
-            {selectedItem ? selectedItem[displayField] : placeholder}
+            {selectedItem && selectedItem[displayField]
+              ? selectedItem[displayField]
+              : placeholder}
           </Text>
           <EvilIcons name="chevron-down" size={35} color="black" />
         </View>

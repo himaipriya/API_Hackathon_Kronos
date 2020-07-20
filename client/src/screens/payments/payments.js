@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { map } from "ramda";
 import { StyleSheet, Text, Modal, View, TextInput } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import Screen from "../../components/screen";
@@ -11,7 +10,7 @@ import {
   fetchAccounts,
   updateAccountList,
 } from "../../domain/actions/accounts.action";
-import { updateAccount } from "../../domain/actions/createVA.action";
+import { updateVAccount } from "../../domain/actions/createVA.action";
 
 const getUpdatedAccounts = (accounts, debitAccId, creditAccId, amount) => {
   const accountList = accounts.map((account) => {
@@ -33,9 +32,9 @@ const payments = ({ navigation }) => {
   const success = useSelector(
     (state) => state.makePayment.data.success || false
   );
-  const percentage = useSelector(
-    (store) => store.userPreference.preferences.percent
-  );
+  const preferences = useSelector((store) => store.userPreference.preferences);
+
+  const { percent = 0 } = preferences;
 
   const payments = useSelector((store) => store.makePayment.payments);
   const dispatch = useDispatch();
@@ -48,14 +47,15 @@ const payments = ({ navigation }) => {
   const handleSubmit = () => {
     const { AccountId: fromAccount } = debitAccount;
     const { AccountId: toAccount } = creditAccount;
-    const rewardAmount = amount * (percentage / 100);
+    const rewardAmount = amount * (percent / 100);
+    const rewardPts = amount * 0.01;
     const payload = {
       fromAccount,
       toAccount,
       date: new Date().toISOString().split("T")[0],
       amount,
       rewardAmount,
-      rewardPts: amount * 0.01,
+      rewardPts,
     };
 
     const updatedAccountList = getUpdatedAccounts(
@@ -65,10 +65,19 @@ const payments = ({ navigation }) => {
       Number(amount) + Number(rewardAmount)
     );
 
+    const updatedRewards = {
+      ...preferences,
+      account: {
+        rewardPts: preferences.account.rewardPts + rewardPts,
+        rewardAmount: preferences.account.rewardAmount + rewardAmount,
+      },
+    };
+
     payments.push(payload);
     console.log("payments", payments);
     dispatch(makePayment(payments));
     dispatch(updateAccountList(updatedAccountList));
+    dispatch(updateVAccount(updatedRewards));
   };
 
   useEffect(() => {
@@ -112,7 +121,7 @@ const payments = ({ navigation }) => {
         />
       </View>
       <Label text="Amount to be Credited to Your Virtual Account" />
-      <Text style={styles.contText}> {amount * (percentage / 100)}</Text>
+      <Text style={styles.contText}> {amount * (percent / 100)}</Text>
 
       <Label text="Earned reward point" />
       <Text style={styles.contText}> {amount * 0.01}</Text>

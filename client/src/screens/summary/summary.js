@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, FlatList, Image } from "react-native";
 import Screen from "../../components/screen";
 import Label from "../../components/label";
 import Button from "../../components/button";
-import MyCarousel  from "../../components/carousel/mycarousel"
+import MyCarousel from "../../components/carousel/mycarousel";
 
 const DATA = [
   {
@@ -40,29 +40,29 @@ const DATA = [
 ];
 
 const Summary = ({ navigation }) => {
-  const payments = useSelector((store) => store.makePayment.payments);
-  const balAmount = (accumulator, currentValue) => (Number(accumulator) + Number(currentValue.rewardAmount));
-  const balPoints = (accumulator, currentValue) => (Number(accumulator) + Number(currentValue.rewardPts));
-  const balanceAmount = payments.reduce(balAmount, 0)
-  const balancePoints = payments.reduce(balPoints, 0)
+  const preferences = useSelector((store) => store.userPreference.preferences);
+  const { account } = preferences;
+  const balanceAmount = account.rewardAmount || 0;
+  const balancePoints = account.rewardPts || 0;
 
   const onOfferSelected = (data) => {
-    console.log('On OFFER', data)
-    navigation.navigate("offer-creation", {...data});
-  }
+    console.log("On OFFER", data);
+    navigation.navigate("offer-creation", { ...data });
+  };
 
   return (
     <Screen>
       <View style={styles.centeredView}>
-        <Label text={`Available Balance: ${balanceAmount}`}/>
-        <Label text={`Total Reward Points: ${balancePoints}`}/>
+        <Label text={`Available Balance: ${balanceAmount}`} />
+        <Label text={`Total Reward Points: ${balancePoints}`} />
 
         <Image
           style={styles.rewardImage}
-          source={require('../../../assets/level1.png')}
+          source={require("../../../assets/level1.png")}
         />
-        
-        <Button title="Transfer"
+
+        <Button
+          title="Transfer"
           onPress={() => {
             navigation.navigate("transfer");
           }}
@@ -74,30 +74,29 @@ const Summary = ({ navigation }) => {
             navigation.navigate("settings");
           }}
         />
-      <Label
-        text="Your Offers" />
-      <MyCarousel whenClicked={onOfferSelected}></MyCarousel>
-      
-      <Label
-        text="Last 5 Transactions"
-        style={{
-          paddingTop: 0,
-        }}
-      />
-      <FlatList
-        data={DATA}
-        renderItem={({ item }) => (
-          <View style={styles.listItems}>
-            <View>
-              <Text>Amount: {item.amount}</Text>
-              <Text>Date: {item.date}</Text>
+        <Label text="Your Offers" />
+        <MyCarousel whenClicked={onOfferSelected}></MyCarousel>
+
+        <Label
+          text="Last 5 Transactions"
+          style={{
+            paddingTop: 0,
+          }}
+        />
+        <FlatList
+          data={DATA}
+          renderItem={({ item }) => (
+            <View style={styles.listItems}>
+              <View>
+                <Text>Amount: {item.amount}</Text>
+                <Text>Date: {item.date}</Text>
+              </View>
+              <Text>Earned Reward: {item.reward}</Text>
             </View>
-            <Text>Earned Reward: {item.reward}</Text>
-          </View>
-        )}
-        keyExtractor={(item) => item.id.toString()}
-        ItemSeparatorComponent={() => <Text style={styles.separator} />}
-      />
+          )}
+          keyExtractor={(item) => item.id.toString()}
+          ItemSeparatorComponent={() => <Text style={styles.separator} />}
+        />
       </View>
     </Screen>
   );
@@ -124,12 +123,11 @@ const styles = StyleSheet.create({
   centeredView: {
     flex: 1,
     alignItems: "center",
-
   },
   rewardImage: {
-    width: '40%',
-    height: '20%'
-  }
+    width: "40%",
+    height: "20%",
+  },
 });
 
 export default Summary;
