@@ -1,6 +1,6 @@
-import React from "react";
+import React,  { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { StyleSheet, Text, View, FlatList, Image } from "react-native";
+import { StyleSheet, Text, View, Modal, FlatList, Image } from "react-native";
 import Screen from "../../components/screen";
 import Label from "../../components/label";
 import Button from "../../components/button";
@@ -40,6 +40,7 @@ const DATA = [
 ];
 
 const Summary = ({ navigation }) => {
+  const [modalVisible, setModalVisible] = useState(false);
   const payments = useSelector((store) => store.makePayment.payments);
   const balAmount = (accumulator, currentValue) => (Number(accumulator) + Number(currentValue.rewardAmount));
   const balPoints = (accumulator, currentValue) => (Number(accumulator) + Number(currentValue.rewardPts));
@@ -74,30 +75,47 @@ const Summary = ({ navigation }) => {
             navigation.navigate("settings");
           }}
         />
+        <Button
+          title="Virtual Account Transactions"
+          style={{ marginBottom: 10 }}
+          onPress={() => {
+            setModalVisible(true);
+          }}
+        />
       <Label
         text="Your Offers" />
       <MyCarousel whenClicked={onOfferSelected}></MyCarousel>
       
-      <Label
-        text="Last 5 Transactions"
-        style={{
-          paddingTop: 0,
-        }}
-      />
-      <FlatList
-        data={DATA}
-        renderItem={({ item }) => (
-          <View style={styles.listItems}>
-            <View>
-              <Text>Amount: {item.amount}</Text>
-              <Text>Date: {item.date}</Text>
-            </View>
-            <Text>Earned Reward: {item.reward}</Text>
+      <Modal animationType="slide" visible={modalVisible}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>Your recent Virtual Account Transactions</Text>
+            <FlatList
+              data={payments}
+              renderItem={({ item }) => (
+                <View style={styles.listItems}>
+                  <View>
+                    <Text>Transferred: <Text style={styles.weight}>{item.amount}</Text></Text>
+                    <Text>Date: <Text style={styles.weight}>{item.date}</Text></Text>
+                  </View>
+                  <View>
+                    <Text>Amount Saved: <Text style={styles.weight}>{item.rewardAmount}</Text></Text>
+                    <Text>Earned Reward: <Text style={styles.weight}>{item.rewardPts}</Text></Text>
+                  </View>
+                </View>
+              )}
+              keyExtractor={(item, index) => index.toString()}
+              ItemSeparatorComponent={() => <Text style={styles.separator} />}
+            /> 
+            <Button
+              title="Ok"
+              style={{ marginBottom: 10 }}
+              onPress={() => {
+                setModalVisible(false);
+              }}
+            />
           </View>
-        )}
-        keyExtractor={(item) => item.id.toString()}
-        ItemSeparatorComponent={() => <Text style={styles.separator} />}
-      />
+      </Modal>
+
       </View>
     </Screen>
   );
@@ -129,6 +147,25 @@ const styles = StyleSheet.create({
   rewardImage: {
     width: '40%',
     height: '20%'
+  },
+  modalView: {
+    flex: 1,
+    marginTop: 40,
+    marginLeft: 10,
+    marginRight: 10,
+    marginBottom: 40,
+    backgroundColor: "white",
+    padding: 15,
+    elevation: 5,
+  },
+  modalText: {
+    marginBottom: 15,
+    fontSize: 18,
+    fontWeight: 'bold',
+    textAlign: "center",
+  },
+  weight: {
+    fontWeight: "bold",
   }
 });
 

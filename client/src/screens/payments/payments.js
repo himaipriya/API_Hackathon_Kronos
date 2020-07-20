@@ -68,10 +68,11 @@ const payments = ({ navigation }) => {
     console.log("payments", payments);
     dispatch(makePayment(payments));
     dispatch(updateAccountList(updatedAccountList));
+    setModalVisible(true);
   };
 
   useEffect(() => {
-    setModalVisible(success);
+    // setModalVisible(success);
   }, [success]);
 
   useEffect(() => {
