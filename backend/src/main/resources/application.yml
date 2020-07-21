@@ -1,0 +1,39 @@
+spring:
+log4j:
+  logger:
+    httpclient:
+      wire: DEBUG
+
+client:
+  id: xU7xQG3UDMG1rZqtkV4EjUwRad-rTJLmdUwTxDbl-Cw=
+  secret: yKfviUIEy8DCrerEfoO6p99czOVjg_T9DdKLcXoIEkY=
+  redirectUri: https://localhost:8080/
+  financialId: 0015800000jfwB4AAI
+  state: ABC
+  authorizationUsername: 123456789012@kronos1.hackathon.com
+  authorizationAccount: 50000012345601,50000012345602,50000087654301,50000011223301,50000011223302
+  tokenUrl: https://ob.natwest.useinfinite.io/token
+  initRunning: true
+
+
+tls:
+  alias:
+  enableMatls: false
+  keyStore:
+    location:
+    password:
+  trustStore:
+    location:
+    password:
+
+aisp:
+  target:
+    context: /open-banking/v3.1/aisp
+    baseUri: https://ob.natwest.useinfinite.io
+    audience: https://api.natwest.useinfinite.io/authorize
+
+pisp:
+  target:
+    context: /open-banking/v3.1/pisp
+    baseUri: https://ob.natwest.useinfinite.io
+    audience: https://api.natwest.useinfinite.io/authorize
