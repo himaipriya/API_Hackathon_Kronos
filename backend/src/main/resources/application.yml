@@ -11,7 +11,7 @@ client:
   financialId: 0015800000jfwB4AAI
   state: ABC
   authorizationUsername: 123456789012@kronos1.hackathon.com
-  authorizationAccount: 50000012345601,50000012345602,50000087654301,50000011223301,50000011223302
+  authorizationAccount: 50000012345696,50000012345695,50000087654394,50000087654393,50000011223391,50000011223392
   tokenUrl: https://ob.natwest.useinfinite.io/token
   initRunning: true
 
