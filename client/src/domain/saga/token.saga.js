@@ -3,8 +3,11 @@ import {
   FETCH_TOKEN_REQUESTED,
   FETCH_TOKEN_SUCCESS,
   FETCH_TOKEN_ERROR,
+  FETCH_PS_TOKEN_REQUESTED,
+  FETCH_PS_TOKEN_SUCCESS,
+  FETCH_PS_TOKEN_ERROR,
 } from "../actionTypes/token.actiontypes";
-import { fetchToken } from "../api/token.api";
+import { fetchToken, fetchPSToken } from "../api/token.api";
 
 export function* getToken() {
   try {
@@ -21,6 +24,22 @@ export function* getToken() {
   }
 }
 
+export function* getPSToken(action) {
+  try {
+    const token = yield call(fetchPSToken, action.payload);
+    yield put({
+      type: FETCH_PS_TOKEN_SUCCESS,
+      payload: token,
+    });
+  } catch (error) {
+    console.log("Error while frecthing PStoken", error);
+    yield put({
+      type: FETCH_PS_TOKEN_ERROR,
+    });
+  }
+}
+
 export function* accessToken(params) {
   yield takeEvery(FETCH_TOKEN_REQUESTED, getToken);
+  yield takeEvery(FETCH_PS_TOKEN_REQUESTED, getPSToken);
 }

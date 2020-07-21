@@ -22,7 +22,6 @@ const sagaMiddleware = createSagaMiddleWare();
 const Drawer = createDrawerNavigator();
 
 let store;
-console.log("Platform", Platform);
 if (Platform.OS === "android" || Platform.OS === "ios") {
   store = createStore(reducer, applyMiddleware(sagaMiddleware));
 } else {

@@ -14,6 +14,11 @@ import {
 } from "../../domain/actions/accounts.action";
 import { updateVAccount } from "../../domain/actions/createVA.action";
 import { getBalance } from "../../domain/actions/balances.action";
+import { getPSToken, clearPSToken } from "../../domain/actions/token.action";
+import {
+  construcPSTokenPayload,
+  constructPaymentPayload,
+} from "../../utils/payload.utils";
 
 const getUpdatedAccounts = (accounts, debitAccId, creditAccId, amount) => {
   const accountList = accounts.map((account) => {
@@ -41,6 +46,9 @@ const payments = ({ navigation }) => {
 
   const payments = useSelector((store) => store.makePayment.payments);
   const { Amount = {} } = useSelector((store) => store.accountBalance.balance);
+  const { pstoken, fetching: fetchingPSToken } = useSelector(
+    (store) => store.token
+  );
   const dispatch = useDispatch();
 
   const [modalVisible, setModalVisible] = useState(false);
@@ -49,26 +57,42 @@ const payments = ({ navigation }) => {
   const [amount, setAmount] = useState(0);
   const [error, setError] = useState(false);
 
+  useEffect(() => {
+    const { consentId = null } = pstoken;
+    if (!isEmpty(pstoken) && consentId) {
+      dispatch(
+        makePayment(
+          constructPaymentPayload(
+            debitAccount,
+            creditAccount,
+            amount,
+            consentId
+          )
+        )
+      );
+    }
+  }, [pstoken]);
+
   const handleSubmit = () => {
     const { AccountId: fromAccount } = debitAccount;
     const { AccountId: toAccount } = creditAccount;
     const rewardAmount = Math.floor(amount * (percent / 100));
     const rewardPts = Math.floor(amount * 0.01);
-    const payload = {
-      fromAccount,
-      toAccount,
-      date: new Date().toISOString().split("T")[0],
-      amount,
-      rewardAmount,
-      rewardPts,
-    };
+    // const payload = {
+    //   fromAccount,
+    //   toAccount,
+    //   date: new Date().toISOString().split("T")[0],
+    //   amount,
+    //   rewardAmount,
+    //   rewardPts,
+    // };
 
-    const updatedAccountList = getUpdatedAccounts(
-      accounts,
-      fromAccount,
-      toAccount,
-      Number(amount) + Number(rewardAmount)
-    );
+    // const updatedAccountList = getUpdatedAccounts(
+    //   accounts,
+    //   fromAccount,
+    //   toAccount,
+    //   Number(amount) + Number(rewardAmount)
+    // );
 
     const updatedRewards = {
       ...preferences,
@@ -78,15 +102,21 @@ const payments = ({ navigation }) => {
       },
     };
 
-    payments.push(payload);
-    dispatch(makePayment(payments));
-    dispatch(updateAccountList(updatedAccountList));
+    // payments.push(payload);
+    const psTokenPayload = construcPSTokenPayload(debitAccount, creditAccount);
+    dispatch(getPSToken(psTokenPayload));
+    // dispatch(makePayment(payments));
+    // dispatch(updateAccountList(updatedAccountList));
     dispatch(updateVAccount(updatedRewards));
-    setModalVisible(true);
+    // setModalVisible(true);
   };
 
   useEffect(() => {
     // setModalVisible(success);
+    if (success) {
+      dispatch(clearPSToken());
+      setModalVisible(true);
+    }
   }, [success]);
 
   useEffect(() => {
@@ -111,7 +141,10 @@ const payments = ({ navigation }) => {
   };
 
   return (
-    <Screen style={styles.container} showLoader={posting || fetching}>
+    <Screen
+      style={styles.container}
+      showLoader={posting || fetching || fetchingPSToken}
+    >
       <Label text="From Amount:" />
       <CustomPicker
         data={accounts}

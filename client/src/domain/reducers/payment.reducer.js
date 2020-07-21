@@ -5,7 +5,9 @@ import {
 
 const initialState = {
   fetching: false,
-  data: {},
+  data: {
+    success: false,
+  },
   payments: [],
 };
 export default (state = initialState, action) => {
@@ -13,6 +15,9 @@ export default (state = initialState, action) => {
     case MAKE_PAYMENT:
       return {
         ...state,
+        data: {
+          success: false,
+        },
         fetching: true,
       };
     case MAKE_PAYMENT_SUCCESS:

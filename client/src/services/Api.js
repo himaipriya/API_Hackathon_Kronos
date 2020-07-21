@@ -15,8 +15,13 @@ class Api {
   requestInterceptor = async (config) => {
     const token = await Storage.getItem("access_token");
     const refresh_token = await Storage.getItem("refresh_token");
+    const ps_token = await Storage.getItem("ps_access_token");
+    const ps_refresh_token = await Storage.getItem("ps_refresh_token");
     config.headers["Content-Type"] = "application/json";
-    if (token) {
+    if (ps_token && config.url.indexOf("pisp") !== -1) {
+      config.headers["Authorization"] = "Bearer " + ps_token;
+      config.headers["refresh_token"] = ps_refresh_token;
+    } else if (token) {
       config.headers["Authorization"] = "Bearer " + token;
       config.headers["refresh_token"] = refresh_token;
     }
@@ -24,9 +29,17 @@ class Api {
   };
 
   handleSuccess(response) {
-    if (response.status === 200) {
+    if (response.status === 200 || response.status === 201) {
       const { data } = response;
-      if (data && data.access_token) {
+      if (
+        data &&
+        data.access_token &&
+        response.config.url.indexOf("pisp") !== -1
+      ) {
+        const { access_token, refresh_token } = data;
+        Storage.setItem("ps_access_token", access_token);
+        Storage.setItem("ps_refresh_token", refresh_token);
+      } else if (data && data.access_token) {
         const { access_token, refresh_token } = data;
         Storage.setItem("access_token", access_token);
         Storage.setItem("refresh_token", refresh_token);

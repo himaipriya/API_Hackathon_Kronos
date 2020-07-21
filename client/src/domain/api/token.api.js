@@ -9,3 +9,14 @@ export const fetchToken = () => {
       throw error;
     });
 };
+
+export const fetchPSToken = (data) => {
+  return Api.post(
+    "https://api-hackathon-kronos.herokuapp.com/open-banking/v3.1/pisp/init",
+    data
+  )
+    .then((response) => response)
+    .catch((error) => {
+      throw error;
+    });
+};

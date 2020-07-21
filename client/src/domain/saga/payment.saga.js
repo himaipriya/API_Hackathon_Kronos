@@ -8,11 +8,12 @@ import { submitPayment } from "../api/payment.api";
 
 export function* makePayment(action) {
   try {
+    console.log("payload", action.payload);
     const response = yield call(submitPayment, action.payload);
     console.log("makePayment saga", response);
     yield put({
       type: MAKE_PAYMENT_SUCCESS,
-      payload: response,
+      payload: { success: true },
     });
   } catch (error) {
     console.log("Error while making payment", error);
