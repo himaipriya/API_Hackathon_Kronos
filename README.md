@@ -1,4 +1,7 @@
 # HappySave (a.k.a) Smart Save
+<div align="center">
+    <img src="https://github.com/himaipriya/API_Hackathon_Kronos/blob/master/client/assets/icon.png" >
+</div>
 Ants are of little strength, yet they store up their food in the summer.
 
 The Curret pandameic emphasised the need for us to save for a rainy day. But still most of us have not adoped it, as savings was never an attractieve option provided commercially to customers.
@@ -12,4 +15,4 @@ We are sur samert save will build savings as a habbit for our customers and helo
 
 Home Screen | Transfer Screen
 ------------ | -------------
-![happySave - Home](https://github.com/himaipriya/API_Hackathon_Kronos/blob/master/home.png) | ![happySave - Transfer](https://github.com/himaipriya/API_Hackathon_Kronos/blob/master/trans.png)
+![happySave - Home](https://github.com/himaipriya/API_Hackathon_Kronos/blob/master/client/assets/home.png) | ![happySave - Transfer](https://github.com/himaipriya/API_Hackathon_Kronos/blob/master/client/assets/trans.png)
