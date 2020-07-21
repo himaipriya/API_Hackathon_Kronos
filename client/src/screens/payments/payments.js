@@ -129,10 +129,10 @@ const payments = ({ navigation }) => {
     dispatch(getBalance(accountId));
   };
 
-  const onAmountChange = (amount) => {
+  const onAmountChange = (amount = 0) => {
     const amt = Number(amount);
     const virtualAmount = Math.floor(amount * (percent / 100));
-    if (virtualAmount + amt > debitAccount.balance) {
+    if (virtualAmount + amt > Amount.Amount) {
       setError(true);
     } else if (error) {
       setError(false);
@@ -171,7 +171,7 @@ const payments = ({ navigation }) => {
           placeholder="Amount"
           maxLength={10}
           style={styles.amtField}
-          value={amount}
+          value={String(amount)}
           onChangeText={onAmountChange}
         />
       </View>
