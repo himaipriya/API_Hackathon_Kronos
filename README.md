@@ -1,4 +1,4 @@
-# HappySave (a.k.a) Samrt Save
+# HappySave (a.k.a) Smart Save
 Ants are of little strength, yet they store up their food in the summer.
 
 The Curret pandameic emphasised the need for us to save for a rainy day. But still most of us have not adoped it, as savings was never an attractieve option provided commercially to customers.
