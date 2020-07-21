@@ -39,7 +39,7 @@ The `./backend` directory contains a completed Spring Boot application with tomc
 
 The `./client` directory contains a complete Ionic frontend to consume the data from the Spring Boot tomcat embedded server. 
 
-[View the README.md within ./client for more details.](./frontend/README.md)
+[View the README.md within ./client for more details.](./client/README.md)
 
 
 
