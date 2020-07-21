@@ -1,0 +1,66 @@
+[
+  {
+    "AccountId": "c58b7b47-5694-4e40-9e0d-5c4d4c7d9ea2",
+    "balance": 500000,
+    "Currency": "GBP",
+    "AccountType": "Personal",
+    "AccountSubType": "CurrentAccount",
+    "Description": "Personal",
+    "Nickname": "Savings Account - NatWest - Sydney",
+    "Account": [
+      {
+        "SchemeName": "UK.OBIE.SortCodeAccountNumber",
+        "Identification": "50000012345602",
+        "Name": "Savings Account - NatWest - Sydney"
+      }
+    ]
+  },
+  {
+    "AccountId": "c58b7b47-5694-4e40-9e0d-5c4d4c7d9ea0",
+    "balance": 2500000,
+    "Currency": "GBP",
+    "AccountType": "Personal",
+    "AccountSubType": "CurrentAccount",
+    "Description": "Personal",
+    "Nickname": "Amazon Pay - Sydney",
+    "Account": [
+      {
+        "SchemeName": "UK.OBIE.SortCodeAccountNumber",
+        "Identification": "50000012345602",
+        "Name": "Savings Account - NatWest - Sydney"
+      }
+    ]
+  },
+  {
+    "AccountId": "c58b7b47-5694-4e40-9e0d-5c4d4c7d9ea4",
+    "balance": 5000,
+    "Currency": "GBP",
+    "AccountType": "Personal",
+    "AccountSubType": "CurrentAccount",
+    "Description": "Personal",
+    "Nickname": "Google Pay",
+    "Account": [
+      {
+        "SchemeName": "UK.OBIE.SortCodeAccountNumber",
+        "Identification": "50000012345602",
+        "Name": "Savings Account - NatWest - Sydney"
+      }
+    ]
+  },
+  {
+    "AccountId": "c58b7b47-5694-4e40-9e0d-5c4d4c7d9ea8",
+    "balance": 150000,
+    "Currency": "GBP",
+    "AccountType": "Personal",
+    "AccountSubType": "CurrentAccount",
+    "Description": "Personal",
+    "Nickname": "Personal Account - Test",
+    "Account": [
+      {
+        "SchemeName": "UK.OBIE.SortCodeAccountNumber",
+        "Identification": "50000012345602",
+        "Name": "Savings Account - NatWest - Sydney"
+      }
+    ]
+  }
+]

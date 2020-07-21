@@ -1,0 +1,26 @@
+[
+  {
+    "fromAccount": "c58b7b47-5694-4e40-9e0d-5c4d4c7d9ea0",
+    "toAccount": "c58b7b47-5694-4e40-9e0d-5c4d4c7d9ea8",
+    "date": "2020-07-19",
+    "amount": "5000",
+    "rewardAmount": 1250,
+    "rewardPts": 50
+  },
+  {
+    "fromAccount": "c58b7b47-5694-4e40-9e0d-5c4d4c7d9ea0",
+    "toAccount": "c58b7b47-5694-4e40-9e0d-5c4d4c7d9ea8",
+    "date": "2020-07-19",
+    "amount": "500",
+    "rewardAmount": 125,
+    "rewardPts": 5
+  },
+  {
+    "fromAccount": "c58b7b47-5694-4e40-9e0d-5c4d4c7d9ea0",
+    "toAccount": "c58b7b47-5694-4e40-9e0d-5c4d4c7d9ea8",
+    "date": "2020-07-19",
+    "amount": "50000",
+    "rewardAmount": 12500,
+    "rewardPts": 500
+  }
+]
