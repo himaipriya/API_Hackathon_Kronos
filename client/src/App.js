@@ -19,19 +19,20 @@ import reducer from "./domain/reducers";
 import rootSaga from "./domain/saga/rootSaga";
 
 const sagaMiddleware = createSagaMiddleWare();
-let middleware;
-if (Platform.os === "web") {
+const Drawer = createDrawerNavigator();
+
+let store;
+console.log("Platform", Platform);
+if (Platform.OS === "android" || Platform.OS === "ios") {
+  store = createStore(reducer, applyMiddleware(sagaMiddleware));
+} else {
   const composeEnhancers =
     window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-  middleware = composeEnhancers(applyMiddleware(sagaMiddleware));
-} else {
-  middleware = applyMiddleware(sagaMiddleware);
+  store = createStore(
+    reducer,
+    composeEnhancers(applyMiddleware(sagaMiddleware))
+  );
 }
-
-const Drawer = createDrawerNavigator();
-const Stack = createStackNavigator();
-const store = createStore(reducer, middleware);
-
 sagaMiddleware.run(rootSaga);
 
 const App = () => {

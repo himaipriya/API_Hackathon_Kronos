@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, Modal, View, TextInput } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
+import { isEmpty } from "ramda";
 import Screen from "../../components/screen";
 import Button from "../../components/button";
 import Error from "../../components/error";
@@ -12,6 +13,7 @@ import {
   updateAccountList,
 } from "../../domain/actions/accounts.action";
 import { updateVAccount } from "../../domain/actions/createVA.action";
+import { getBalance } from "../../domain/actions/balances.action";
 
 const getUpdatedAccounts = (accounts, debitAccId, creditAccId, amount) => {
   const accountList = accounts.map((account) => {
@@ -38,6 +40,7 @@ const payments = ({ navigation }) => {
   const { percent = 0 } = preferences;
 
   const payments = useSelector((store) => store.makePayment.payments);
+  const { Amount = {} } = useSelector((store) => store.accountBalance.balance);
   const dispatch = useDispatch();
 
   const [modalVisible, setModalVisible] = useState(false);
@@ -90,10 +93,16 @@ const payments = ({ navigation }) => {
     dispatch(fetchAccounts());
   }, []);
 
+  const onAccountSelection = (account) => {
+    const { AccountId: accountId } = account;
+    setDebitAccount(account);
+    dispatch(getBalance(accountId));
+  };
+
   const onAmountChange = (amount) => {
     const amt = Number(amount);
-    const virtualAmount = Math.floor(amount * (percent / 100))
-    if ((virtualAmount + amt) > debitAccount.balance) {
+    const virtualAmount = Math.floor(amount * (percent / 100));
+    if (virtualAmount + amt > debitAccount.balance) {
       setError(true);
     } else if (error) {
       setError(false);
@@ -109,10 +118,10 @@ const payments = ({ navigation }) => {
         selectedItem={debitAccount}
         displayField="Nickname"
         keyField="AccountId"
-        onSelect={setDebitAccount}
+        onSelect={onAccountSelection}
         placeholder="Select an account"
       />
-      <Text>Avaialble Balance: {debitAccount.balance} </Text>
+      {!isEmpty(Amount) && <Text>Avaialble Balance: {Amount.Amount} </Text>}
       <Label text="To Amount:" />
       <CustomPicker
         data={accounts}
@@ -137,19 +146,26 @@ const payments = ({ navigation }) => {
         visible={error}
         message="Entered Amount + Your Virtual Amount, Exceeds your available balance"
       />
-      
-        <Label text="Amount to be Credited to Your Virtual Account" />
-        <Text style={styles.contText}>
-          {Math.floor(amount * (percent / 100))}
-        </Text>
 
-        <Label text="Amount to be debited" />
-        <Text style={styles.contText}> {amount + Math.floor(amount * (percent / 100))}</Text>
+      <Label text="Amount to be Credited to Your Virtual Account" />
+      <Text style={styles.contText}>
+        {Math.floor(amount * (percent / 100))}
+      </Text>
 
-        <Label text="Earned reward point" />
-        <Text style={styles.contText}> {Math.floor(amount * 0.01)}</Text>
-      
-      <Button disable={error} title="Make Payment" onPress={handleSubmit}></Button>
+      <Label text="Amount to be debited" />
+      <Text style={styles.contText}>
+        {" "}
+        {amount + Math.floor(amount * (percent / 100))}
+      </Text>
+
+      <Label text="Earned reward point" />
+      <Text style={styles.contText}> {Math.floor(amount * 0.01)}</Text>
+
+      <Button
+        disable={error}
+        title="Make Payment"
+        onPress={handleSubmit}
+      ></Button>
 
       <Modal animationType="slide" transparent={true} visible={modalVisible}>
         <View style={styles.centeredView}>

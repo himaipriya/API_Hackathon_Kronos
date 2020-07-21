@@ -4,6 +4,7 @@ import { userPreference } from "./preference.saga";
 import { payment } from "./payment.saga";
 import { accountCreation } from "./createVA.saga";
 import { accountsSaga } from "./accounts.saga";
+import { accountBalance } from "./balances.saga";
 
 export default function* rootSaga() {
   yield fork(accessToken);
@@ -11,4 +12,5 @@ export default function* rootSaga() {
   yield fork(payment);
   yield fork(accountCreation);
   yield fork(accountsSaga);
+  yield fork(accountBalance);
 }

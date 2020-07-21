@@ -4,6 +4,7 @@ import userPreference from "./preferences.reducer";
 import makePayment from "./payment.reducer";
 import createAccount from "./createVA.reducers";
 import accounts from "./accounts.reducers";
+import accountBalance from "./balances.reducers";
 
 export default combineReducers({
   token,
@@ -11,4 +12,5 @@ export default combineReducers({
   makePayment,
   createAccount,
   accounts,
+  accountBalance,
 });

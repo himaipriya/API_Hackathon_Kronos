@@ -14,7 +14,7 @@ export function* getAccounts() {
     const accounts = yield call(fetchAccounts);
     yield put({
       type: FETCH_ACCOUNTS_SUCCESS,
-      payload: accounts,
+      payload: accounts.Data.Account,
     });
   } catch (error) {
     console.log("Error while fetching the Accounts", error);

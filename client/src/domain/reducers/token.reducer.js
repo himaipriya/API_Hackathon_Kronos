@@ -6,6 +6,7 @@ import {
 const initialState = {
   fetching: false,
   userAuthenticated: false,
+  token: {},
 };
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -18,6 +19,7 @@ export default (state = initialState, action) => {
       return {
         fetching: false,
         userAuthenticated: true,
+        token: action.payload,
       };
     case FETCH_TOKEN_REQUESTED:
       return {

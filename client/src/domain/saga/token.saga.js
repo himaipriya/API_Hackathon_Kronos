@@ -11,6 +11,7 @@ export function* getToken() {
     const token = yield call(fetchToken);
     yield put({
       type: FETCH_TOKEN_SUCCESS,
+      payload: token,
     });
   } catch (error) {
     console.log("Error while frecthing token", error);
